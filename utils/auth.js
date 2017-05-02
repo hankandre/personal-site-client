@@ -22,7 +22,7 @@ export const setToken = (token) => {
     return
   }
   window.localStorage.setItem('hankToken', token)
-  window.localStorage.setItem('user', JSON.stringify(jwtDecode(token)))
+  window.localStorage.setItem('user', JSON.stringify(token.user))
   Cookie.set('jwt', token)
 }
 
