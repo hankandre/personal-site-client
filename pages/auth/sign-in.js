@@ -1,18 +1,18 @@
 import React from 'react'
+import Router from 'next/router'
 
 import defaultPage from '../../hocs/defaultPage'
-import { Form, Input, Button } from 'semantic-ui-react';
-import fetch from 'isomorphic-unfetch';
-import { setToken } from '../../utils/auth';
-
+import { Form, Input, Button } from 'semantic-ui-react'
+import fetch from 'isomorphic-unfetch'
+import { setToken } from '../../utils/auth'
 
 class SignIn extends React.Component {
-  constructor(props) {
+  constructor (props) {
     super(props)
     this.state = {
       username: '',
       password: '',
-      error: {}
+      error: ''
     }
   }
 
@@ -29,35 +29,41 @@ class SignIn extends React.Component {
       username: this.state.username,
       password: this.state.password
     }
-    e.preventDefault();
+    e.preventDefault()
     const res = await fetch('https://mighty-sierra-41096.herokuapp.com/', {
       method: 'post',
       body: JSON.stringify(user)
     })
     const data = await res.json()
-    if (400 <= res.status < 500 ) {
-      this.setState({error: data})
+    console.log(res, data)
+    if (!data.token && !data.error) {
+      this.setState({error: 'Uh oh, Jim.'})
+    } else if (!data.token && data.error) {
+      this.setState({error: data.error})
+    } else {
+      setToken(data)
+      Router.push('/')
     }
-    setToken(data)
-   }
+  }
 
   render () {
     return (
       <Form onSubmit={this.handleSubmit.bind(this)}>
         <Form.Field>
-          <Input type="text"
-            placeholder="Username"
+          <Input type='text'
+            placeholder='Username'
             value={this.state.username}
-            onChange={this.handleUsername.bind(this)}></Input>
+            onChange={this.handleUsername.bind(this)} />
         </Form.Field>
         <Form.Field>
-          <Input type="password" 
-            placeholder="Password"
+          <Input type='password'
+            placeholder='Password'
             value={this.state.password}
-            onChange={this.handlePassword.bind(this)}></Input>
+            onChange={this.handlePassword.bind(this)} />
         </Form.Field>
+        <p style={{color: 'red'}}>{this.state.error}</p>
         <Button>Submit</Button>
-      
+
       </Form>
     )
   }

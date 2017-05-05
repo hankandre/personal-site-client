@@ -33,6 +33,7 @@ export const unsetToken = () => {
   }
   window.localStorage.removeItem('hankToken')
   window.localStorage.removeItem('secret')
+  window.localStorage.removeItem('user')
   Cookie.remove('jwt')
 
   window.localStorage.setItem('logout', Date.now())

@@ -1,6 +1,5 @@
 import React, { PropTypes } from 'react'
 
-import NotAuthorized from '../components/NotAuthorized'
 import defaultPage from './defaultPage'
 
 const securePageHoc = Page => class SecurePage extends React.Component {
@@ -12,7 +11,7 @@ const securePageHoc = Page => class SecurePage extends React.Component {
   }
   render () {
     if (!this.props.isAuthenticated) {
-      return <NotAuthorized />
+      return <h1>You're not authenticated!</h1>
     }
     return <Page {...this.props} />
   }
