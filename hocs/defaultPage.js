@@ -19,6 +19,7 @@ const Main = styled.div`
 
 export default Page => class DefaultPage extends React.Component {
   static getInitialProps (ctx) {
+    console.log(ctx.req)
     const loggedUser = process.browser ? getUserFromLocalStorage() : getUserFromCookie(ctx.req)
     const pageProps = Page.getInitialProps && Page.getInitialProps(ctx)
     return {
@@ -51,7 +52,8 @@ export default Page => class DefaultPage extends React.Component {
 
   render () {
     const cssFiles = [
-      'https://unpkg.com/normalize.css@5.0.0/normalize.css'
+      '//unpkg.com/normalize.css@5.0.0/normalize.css',
+      '//cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.2/semantic.min.css'
     ]
     return (
       <div>
@@ -74,7 +76,7 @@ export default Page => class DefaultPage extends React.Component {
               {styleSheet.getCSS()}
             </style>
           )}
-          <title>Next.js + auth0</title>
+          <title>Hank Andre</title>
         </Head>
         <App>
           <Main>

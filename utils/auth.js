@@ -17,13 +17,14 @@ export const extractInfoFromHash = () => {
   return {token: id_token, secret: state}
 }
 
-export const setToken = (token) => {
+export const setToken = (data) => {
   if (!process.browser) {
     return
   }
-  window.localStorage.setItem('hankToken', token)
-  window.localStorage.setItem('user', JSON.stringify(token.user))
-  Cookie.set('jwt', token)
+  console.log(data.token)
+  window.localStorage.setItem('hankToken', data.token)
+  window.localStorage.setItem('user', JSON.stringify(data.user))
+  Cookie.set('jwt', data.token)
 }
 
 export const unsetToken = () => {
