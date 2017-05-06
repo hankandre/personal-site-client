@@ -7,9 +7,9 @@ import Header from '../components/Header'
 import { getUserFromCookie, getUserFromLocalStorage } from '../utils/auth'
 
 export default Page => class DefaultPage extends React.Component {
-  static getInitialProps (ctx) {
+  static async getInitialProps (ctx) {
     const loggedUser = process.browser ? getUserFromLocalStorage() : getUserFromCookie(ctx.req)
-    const pageProps = Page.getInitialProps && Page.getInitialProps(ctx)
+    const pageProps = await Page.getInitialProps() && await Page.getInitialProps(ctx)
     return {
       ...pageProps,
       loggedUser,
@@ -43,7 +43,7 @@ export default Page => class DefaultPage extends React.Component {
       '//unpkg.com/normalize.css@5.0.0/normalize.css',
       '//cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.2/semantic.min.css'
     ]
-    console.log(...this.props)
+    console.log(this.props)
     return (
       <div>
         <Head>

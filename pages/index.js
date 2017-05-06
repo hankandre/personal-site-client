@@ -1,20 +1,15 @@
 import React, { PropTypes, Component } from 'react'
-import { Container, Segment } from 'semantic-ui-react'
+import { Segment } from 'semantic-ui-react'
 import fetch from 'isomorphic-unfetch'
 import Markdown from 'react-markdown'
 
 import defaultPage from '../hocs/defaultPage'
 
 class Index extends Component {
-  constructor (props) {
-    super(props)
-    this.props = props
-  }
-
   static async getInitialProps () {
     const res = await fetch('https://stark-cliffs-87781.herokuapp.com/')
     const data = await res.json()
-    return {data}
+    return { blogPosts: data }
   }
 
   static propTypes = {
@@ -28,18 +23,29 @@ class Index extends Component {
   )
 
   render () {
-    console.log(this.props)
     return (
       <div>
+        <style jsx global>{`
+        img {
+          max-width: 100%;
+          display: block;
+        }
+        `}</style>
         {this.props.isAuthenticated ? this.SuperSecretDiv() : null }
-        <Container>
-          {this.props.data.posts.map(post => {
-            return <Segment>
-              <h3>{post.title}</h3>
-              <Markdown source={post.content.substring(0, 150)} />
-            </Segment>
-          })}
-        </Container>
+        {
+          this.props.blogPosts.posts.map(post => {
+            const date = new Date(post.createdAt)
+            return <div>
+              <h4>{post.title}</h4>
+              <p>{
+                date.toLocaleDateString()
+              }</p>
+              <Segment>
+                <Markdown source={post.content} />
+              </Segment>
+            </div>
+          })
+        }
       </div>
 
     )
