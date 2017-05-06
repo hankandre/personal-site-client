@@ -1,4 +1,4 @@
-{  
+{
   "dependencies": {
     "auth0-lock": "10.7.2",
     "babel-plugin-styled-components": "1.1.1",
@@ -8,6 +8,7 @@
     "next": "^2.3.0",
     "react": "15.4.2",
     "react-dom": "15.4.2",
+    "react-markdown": "^2.5.0",
     "semantic-ui-react": "^0.68.2",
     "styled-components": "2.0.0-7",
     "uuid": "3.0.1"

@@ -1,38 +1,49 @@
-import React, { PropTypes } from 'react'
-import Link from 'next/link'
-import { Container } from 'semantic-ui-react'
+import React, { PropTypes, Component } from 'react'
+import { Container, Segment } from 'semantic-ui-react'
+import fetch from 'isomorphic-unfetch'
+import Markdown from 'react-markdown'
+
 import defaultPage from '../hocs/defaultPage'
 
-const SuperSecretDiv = () => (
-  <b>
-    This is a super secret div.
-  </b>
-)
+class Index extends Component {
+  constructor (props) {
+    super(props)
+    this.props = props
+  }
 
-const Index = ({ isAuthenticated }) => (
-  <div>
-    {isAuthenticated && <SuperSecretDiv />}
-    <Container>
-      <h4>Hello, friend!</h4>
-      <p>
-        This is a super simple example of how to use  together.
-      </p>
-      {!isAuthenticated && (
-        <p>
-          You're not authenticated yet. Maybe you want to and see what happens?
-        </p>
-      )}
-      {isAuthenticated && (
-        <p>
-          Now that you're authenticated, maybe you should try going to our!
-        </p>
-      )}
-    </Container>
-  </div>
-)
+  static async getInitialProps () {
+    const res = await fetch('https://stark-cliffs-87781.herokuapp.com/')
+    const data = await res.json()
+    return {data}
+  }
 
-Index.propTypes = {
-  isAuthenticated: PropTypes.bool.isRequired
+  static propTypes = {
+    isAuthenticated: PropTypes.bool.isRequired
+  }
+
+  SuperSecretDiv = () => (
+    <b>
+      This is a super secret div.
+    </b>
+  )
+
+  render () {
+    console.log(this.props)
+    return (
+      <div>
+        {this.props.isAuthenticated ? this.SuperSecretDiv() : null }
+        <Container>
+          {this.props.data.posts.map(post => {
+            return <Segment>
+              <h3>{post.title}</h3>
+              <Markdown source={post.content.substring(0, 150)} />
+            </Segment>
+          })}
+        </Container>
+      </div>
+
+    )
+  }
 }
 
 export default defaultPage(Index)

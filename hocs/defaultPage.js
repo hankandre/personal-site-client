@@ -1,25 +1,13 @@
 import React from 'react'
 import Head from 'next/head'
 import Router from 'next/router'
-import styled, { styleSheet } from 'styled-components'
+import { Grid } from 'semantic-ui-react'
 
 import Header from '../components/Header'
 import { getUserFromCookie, getUserFromLocalStorage } from '../utils/auth'
 
-const App = styled.div`
-  height: 100vh;
-  width: 100vw;
-`
-
-const Main = styled.div`
-  max-width: 1024px;
-  margin: 0 auto;
-  padding: 30px;
-`
-
 export default Page => class DefaultPage extends React.Component {
   static getInitialProps (ctx) {
-    console.log(ctx.req)
     const loggedUser = process.browser ? getUserFromLocalStorage() : getUserFromCookie(ctx.req)
     const pageProps = Page.getInitialProps && Page.getInitialProps(ctx)
     return {
@@ -55,12 +43,13 @@ export default Page => class DefaultPage extends React.Component {
       '//unpkg.com/normalize.css@5.0.0/normalize.css',
       '//cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.2/semantic.min.css'
     ]
+    console.log(...this.props)
     return (
       <div>
         <Head>
           <meta name='viewport' content='width=device-width, initial-scale=1' />
           {cssFiles.map((c, i) => <link key={i} href={c} rel='stylesheet' />)}
-          <style>
+          <style jsx>
             {`
             * {
               margin: 0;
@@ -71,19 +60,14 @@ export default Page => class DefaultPage extends React.Component {
             }
             `}
           </style>
-          {!process.browser && (
-            <style>
-              {styleSheet.getCSS()}
-            </style>
-          )}
           <title>Hank Andre</title>
         </Head>
-        <App>
-          <Main>
-            <Header {...this.props} />
+        <Header {...this.props} />
+        <Grid container>
+          <Grid.Column>
             <Page {...this.props} />
-          </Main>
-        </App>
+          </Grid.Column>
+        </Grid>
       </div>
     )
   }

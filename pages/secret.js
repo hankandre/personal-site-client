@@ -1,20 +1,11 @@
 import React, { PropTypes } from 'react'
-import styled from 'styled-components'
-
+import { Container } from 'semantic-ui-react'
 import securePage from '../hocs/securePage'
 
-const Content = styled.p`
-  font-size: 20px;
-  font-weight: 200;
-  line-height: 30px;
-`
-
 const Secret = ({ loggedUser }) => (
-  <div>
-    <Content>
-      Hi <strong>{loggedUser.email}</strong>. This is a super secure page! Try loading this page again using the incognito/private mode of your browser.
-    </Content>
-  </div>
+  <Container>
+    Hi <strong>{loggedUser.email}</strong>. This is a super secure page! Try loading this page again using the incognito/private mode of your browser.
+  </Container>
 )
 
 Secret.propTypes = {

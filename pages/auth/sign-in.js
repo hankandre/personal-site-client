@@ -35,7 +35,6 @@ class SignIn extends React.Component {
       body: JSON.stringify(user)
     })
     const data = await res.json()
-    console.log(res, data)
     if (!data.token && !data.error) {
       this.setState({error: 'Uh oh, Jim.'})
     } else if (!data.token && data.error) {

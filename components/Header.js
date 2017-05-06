@@ -1,35 +1,9 @@
 import React, { PropTypes } from 'react'
 import Link from 'next/link'
-import styled from 'styled-components'
-
-const AppHeader = styled.div`
-  display: flex;
-  margin-bottom: 20px;
-`
-
-const HeaderLink = styled.a`
-  margin-right: 20px;
-  font-size: 14px;
-  color: ${p => p.isActive ? '#333' : '#999'};
-  text-decoration: none;
-  text-transform: uppercase;
-  padding-top: 2px;
-  padding-bottom: 2px;
-  border-top: 1px solid ${p => p.isActive ? '#333' : 'transparent'};
-  border-bottom: 1px solid ${p => p.isActive ? '#333' : 'transparent'};
-  transition: color .25s;
-  font-weight: isActive ? '600' : '400';
-  
-  &:hover {
-    color: #333;
-  }
-`
 
 const links = [
-  { href: '/', text: 'Home' },
   { href: '/about', text: 'About' },
   { href: '/secret', text: 'Top Secret', authRequired: true },
-  { href: '/auth/sign-in', text: 'Sign In', anonymousOnly: true },
   { href: '/auth/sign-off', text: 'Sign Off', authRequired: true }
 ]
 
@@ -38,15 +12,31 @@ const getAllowedLinks = isAuthenticated => links
   .filter(l => !isAuthenticated || (isAuthenticated && !l.anonymousOnly))
 
 const Header = ({ isAuthenticated, currentUrl }) => (
-  <AppHeader>
-    {getAllowedLinks(isAuthenticated).map(l => (
-      <Link prefetch key={l.href} href={l.href}>
-        <HeaderLink isActive={currentUrl === l.href}>
-          {l.text}
-        </HeaderLink>
-      </Link>
-    ))}
-  </AppHeader>
+  <header>
+    <style jsx>{`
+      header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 10px 15px;
+      }
+    `}</style>
+    <Link href='/'>
+      <a>
+        Hank <br />
+        Codes
+      </a>
+    </Link>
+    <div>
+      {getAllowedLinks(isAuthenticated).map(l => (
+        <Link prefetch key={l.href} href={l.href}>
+          <a>
+            {l.text}
+          </a>
+        </Link>
+      ))}
+    </div>
+  </header>
 )
 
 Header.propTypes = {
