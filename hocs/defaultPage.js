@@ -43,7 +43,6 @@ export default Page => class DefaultPage extends React.Component {
       '//unpkg.com/normalize.css@5.0.0/normalize.css',
       '//cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.2/semantic.min.css'
     ]
-    console.log(this.props)
     return (
       <div>
         <Head>
@@ -62,12 +61,7 @@ export default Page => class DefaultPage extends React.Component {
           </style>
           <title>Hank Andre</title>
         </Head>
-        <Header {...this.props} />
-        <Grid container>
-          <Grid.Column>
-            <Page {...this.props} />
-          </Grid.Column>
-        </Grid>
+        <Page {...this.props} />
       </div>
     )
   }

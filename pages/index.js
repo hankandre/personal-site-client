@@ -4,6 +4,7 @@ import fetch from 'isomorphic-unfetch'
 import Markdown from 'react-markdown'
 
 import defaultPage from '../hocs/defaultPage'
+import NotAuthenticated from '../layouts/NotAuthenticated'
 
 class Index extends Component {
   static async getInitialProps () {
@@ -24,7 +25,7 @@ class Index extends Component {
 
   render () {
     return (
-      <div>
+      <NotAuthenticated>
         <style jsx global>{`
         img {
           max-width: 100%;
@@ -46,7 +47,7 @@ class Index extends Component {
             </div>
           })
         }
-      </div>
+      </NotAuthenticated>
 
     )
   }
