@@ -1,17 +1,34 @@
 import React, { Component } from 'react'
 import { Grid,
-        Button } from 'semantic-ui-react'
+        Button,
+        Dropdown
+      } from 'semantic-ui-react'
 import Markdown from 'react-markdown'
 import fetch from 'isomorphic-unfetch'
 
 import securePage from '../../hocs/securePage'
 
 class Dashboard extends Component {
+  static async getInitialProps () {
+    const res = await fetch('https://stark-cliffs-87781.herokuapp.com/')
+    const data = await res.json()
+
+    const types = data.posts.map((post) => {
+      return post.type
+    })
+    .filter((type, index, self) => {
+      return self.indexOf(type) === index
+    })
+    console.log(types)
+    return {types}
+  }
+
   constructor (props) {
     super(props)
     this.state = {
       title: '',
-      content: ''
+      content: '',
+      type: ''
     }
   }
 
@@ -23,12 +40,20 @@ class Dashboard extends Component {
     this.setState({content: e.target.value})
   }
 
-  handleSubmit (e) {
+  handleType (e) {
+    this.setState({type: e.target.value})
+  }
+
+  async handleSubmit (e) {
     e.preventDefault()
-    console.log(this.state)
+    fetch('https://stark-cliffs-87781.herokuapp.com/', {
+      method: 'post',
+      body: JSON.stringify(this.state)
+    })
   }
 
   render () {
+    console.log(this.props.types)
     return (
       <Grid celled='internally'>
         <style jsx global>{`
@@ -57,6 +82,13 @@ class Dashboard extends Component {
           placeholder='Title'
           value={this.state.title}
           onChange={this.handleTitle.bind(this)} />
+        <Dropdown
+          placeholder='Post type'
+          openOnFocus
+          selection
+          onChange={this.handleType.bind(this)}
+          options={this.props.types}
+          value={this.state.type} />
         <Grid.Row style={{height: 'calc(80vh - 58px)'}}>
           <Grid.Column width='8' className='editor'>
             <textarea
@@ -64,7 +96,8 @@ class Dashboard extends Component {
               value={this.state.content} />
             <Button
               floated='right'
-              onClick={this.handleSubmit.bind(this)}>
+              onClick={this.handleSubmit.bind(this)}
+              color='teal'>
               Submit
             </Button>
           </Grid.Column>
