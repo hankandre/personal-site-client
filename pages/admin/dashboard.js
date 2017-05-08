@@ -13,14 +13,14 @@ class Dashboard extends Component {
     const res = await fetch('https://stark-cliffs-87781.herokuapp.com/')
     const data = await res.json()
 
-    const types = data.posts.map((post) => {
+    const postTypes = data.posts.map((post) => {
       return post.type
     })
     .filter((type, index, self) => {
       return self.indexOf(type) === index
     })
-    console.log(types)
-    return {types}
+
+    return {postTypes}
   }
 
   constructor (props) {
@@ -40,20 +40,20 @@ class Dashboard extends Component {
     this.setState({content: e.target.value})
   }
 
-  handleType (e) {
-    this.setState({type: e.target.value})
+  handleType (e, {value}) {
+    this.setState({type: value})
   }
 
   async handleSubmit (e) {
     e.preventDefault()
-    fetch('https://stark-cliffs-87781.herokuapp.com/', {
-      method: 'post',
-      body: JSON.stringify(this.state)
-    })
+    console.log(this.state)
+    // fetch('https://stark-cliffs-87781.herokuapp.com/', {
+    //   method: 'post',
+    //   body: JSON.stringify(this.state)
+    // })
   }
 
   render () {
-    console.log(this.props.types)
     return (
       <Grid celled='internally'>
         <style jsx global>{`
@@ -61,7 +61,6 @@ class Dashboard extends Component {
             max-width: 100%;
             display: block;
           }
-          input,
           .ui.input,
           textarea,
           .preview {
@@ -87,7 +86,13 @@ class Dashboard extends Component {
           openOnFocus
           selection
           onChange={this.handleType.bind(this)}
-          options={this.props.types}
+          options={this.props.postTypes.map((type) => {
+            return {
+              key: type,
+              value: type,
+              text: type
+            }
+          })}
           value={this.state.type} />
         <Grid.Row style={{height: 'calc(80vh - 58px)'}}>
           <Grid.Column width='8' className='editor'>
