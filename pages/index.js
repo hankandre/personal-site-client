@@ -1,5 +1,5 @@
 import React, { PropTypes, Component } from 'react'
-import { Segment } from 'semantic-ui-react'
+import { Item } from 'semantic-ui-react'
 import fetch from 'isomorphic-unfetch'
 import Markdown from 'react-markdown'
 
@@ -33,20 +33,23 @@ class Index extends Component {
         }
         `}</style>
         {this.props.isAuthenticated ? this.SuperSecretDiv() : null }
-        {
-          this.props.blogPosts.posts.map(post => {
-            const date = new Date(post.createdAt)
-            return <div>
-              <h4>{post.title}</h4>
-              <p>{
-                date.toLocaleDateString()
-              }</p>
-              <Segment>
-                <Markdown source={post.content} />
-              </Segment>
-            </div>
-          })
-        }
+        <Item.Group>
+          {
+            this.props.blogPosts.posts.map(post => {
+              const date = new Date(post.createdAt)
+              return <Item>
+                <Item.Image src={post.image} size='small' />
+                <Item.Content>
+                  <Item.Header>{post.title}</Item.Header>
+                  <Item.Meta content={date.toLocaleDateString()} />
+                  <Item.Description>
+                    <Markdown source={post.content} />
+                  </Item.Description>
+                </Item.Content>
+              </Item>
+            })
+          }
+        </Item.Group>
       </NotAuthenticated>
 
     )

@@ -9,19 +9,19 @@ import fetch from 'isomorphic-unfetch'
 import securePage from '../../hocs/securePage'
 
 class Dashboard extends Component {
-  static async getInitialProps () {
-    const res = await fetch('https://stark-cliffs-87781.herokuapp.com/')
-    const data = await res.json()
+  // static async getInitialProps () {
+  //   const res = await fetch('https://stark-cliffs-87781.herokuapp.com/')
+  //   const data = await res.json()
 
-    const postTypes = data.posts.map((post) => {
-      return post.type
-    })
-    .filter((type, index, self) => {
-      return self.indexOf(type) === index
-    })
+  //   const postTypes = data.posts.map((post) => {
+  //     return post.type
+  //   })
+  //   .filter((type, index, self) => {
+  //     return self.indexOf(type) === index
+  //   })
 
-    return {postTypes}
-  }
+  //   return {postTypes}
+  // }
 
   constructor (props) {
     super(props)
@@ -30,6 +30,7 @@ class Dashboard extends Component {
       content: '',
       type: ''
     }
+    this.emptyState = Object.assign({}, this.state)
   }
 
   handleTitle (e) {
@@ -46,11 +47,15 @@ class Dashboard extends Component {
 
   async handleSubmit (e) {
     e.preventDefault()
-    console.log(this.state)
-    // fetch('https://stark-cliffs-87781.herokuapp.com/', {
-    //   method: 'post',
-    //   body: JSON.stringify(this.state)
-    // })
+    const token = window.localStorage.getItem('hankToken')
+    const res = await fetch('https://stark-cliffs-87781.herokuapp.com/', {
+      method: 'post',
+      headers: {
+        'Authorization': `Bearer ${token}`
+      },
+      body: JSON.stringify(this.state)
+    })
+    this.state = res.status === 200 ? this.emptyState : this.state
   }
 
   render () {
@@ -85,14 +90,15 @@ class Dashboard extends Component {
           placeholder='Post type'
           openOnFocus
           selection
+          divider
           onChange={this.handleType.bind(this)}
-          options={this.props.postTypes.map((type) => {
-            return {
-              key: type,
-              value: type,
-              text: type
+          options={[
+            {
+              key: Math.random(),
+              value: 'Post',
+              text: 'Post'
             }
-          })}
+          ]}
           value={this.state.type} />
         <Grid.Row style={{height: 'calc(80vh - 58px)'}}>
           <Grid.Column width='8' className='editor'>
