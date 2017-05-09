@@ -31,6 +31,10 @@ class Dashboard extends Component {
       type: ''
     }
     this.emptyState = Object.assign({}, this.state)
+    this.handleTitle = this.handleTitle.bind(this)
+    this.handleContent = this.handleContent.bind(this)
+    this.handleSubmit = this.handleSubmit.bind(this)
+    this.handleType = this.handleType.bind(this)
   }
 
   handleTitle (e) {
@@ -59,8 +63,47 @@ class Dashboard extends Component {
   }
 
   render () {
+    const { content } = this.state
     return (
       <Grid celled='internally'>
+        <input
+          placeholder='Title'
+          value={this.state.title}
+          onChange={this.handleTitle} />
+        <Dropdown
+          placeholder='Post type'
+          openOnFocus
+          selection
+          divider
+          onChange={this.handleType}
+          options={[
+            {
+              key: Math.random(),
+              value: 'Post',
+              text: 'Post'
+            }
+          ]}
+          value={this.state.type} />
+        <Grid.Row style={{height: 'calc(80vh - 58px)'}}>
+          <Grid.Column
+            width='8'
+            className='editor'>
+            <textarea
+              onChange={this.handleContent}
+              value={content} />
+            <Button
+              floated='right'
+              onClick={this.handleSubmit}
+              color='teal'>
+              Submit
+            </Button>
+          </Grid.Column>
+          <Grid.Column width='8'>
+            <Markdown
+              className='preview'
+              source={content} />
+          </Grid.Column>
+        </Grid.Row>
         <style jsx global>{`
           img {
             max-width: 100%;
@@ -82,40 +125,6 @@ class Dashboard extends Component {
           }
 
         `}</style>
-        <input
-          placeholder='Title'
-          value={this.state.title}
-          onChange={this.handleTitle.bind(this)} />
-        <Dropdown
-          placeholder='Post type'
-          openOnFocus
-          selection
-          divider
-          onChange={this.handleType.bind(this)}
-          options={[
-            {
-              key: Math.random(),
-              value: 'Post',
-              text: 'Post'
-            }
-          ]}
-          value={this.state.type} />
-        <Grid.Row style={{height: 'calc(80vh - 58px)'}}>
-          <Grid.Column width='8' className='editor'>
-            <textarea
-              onChange={this.handleContent.bind(this)}
-              value={this.state.content} />
-            <Button
-              floated='right'
-              onClick={this.handleSubmit.bind(this)}
-              color='teal'>
-              Submit
-            </Button>
-          </Grid.Column>
-          <Grid.Column width='8'>
-            <Markdown className='preview' source={this.state.content} />
-          </Grid.Column>
-        </Grid.Row>
       </Grid>
     )
   }

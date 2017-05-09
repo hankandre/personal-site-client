@@ -12,8 +12,9 @@ app.prepare()
   const router = new Router()
 
   router.get('/post/:post', async ctx => {
-    console.log(ctx.params, ctx.query)
-    await app.render(ctx.req, ctx.res, '/post', ctx.query)
+    const { query, params } = ctx
+    console.log(params, query)
+    await app.render(ctx.req, ctx.res, '/post', query)
     ctx.respond = false
   })
 
