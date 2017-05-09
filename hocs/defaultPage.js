@@ -1,15 +1,15 @@
 import React from 'react'
 import Head from 'next/head'
 import Router from 'next/router'
-import { Grid } from 'semantic-ui-react'
 
-import Header from '../components/Header'
 import { getUserFromCookie, getUserFromLocalStorage } from '../utils/auth'
 
 export default Page => class DefaultPage extends React.Component {
   static async getInitialProps (ctx) {
     const loggedUser = process.browser ? getUserFromLocalStorage() : getUserFromCookie(ctx.req)
-    const pageProps = await Page.getInitialProps() && await Page.getInitialProps(ctx)
+    const pageProps = Page.getInitialProps
+                    ? await Page.getInitialProps() && await Page.getInitialProps(ctx)
+                    : null
     return {
       ...pageProps,
       loggedUser,
