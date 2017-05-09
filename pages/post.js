@@ -17,7 +17,7 @@ class Post extends Component {
         <style jsx>{`
           img {
             display: block;
-            max-height: 80vh;
+            max-width: 100%;
           }
         `}</style>
         <img src={this.props.url.query.image} alt='post title' />

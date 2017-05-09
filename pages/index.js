@@ -59,14 +59,16 @@ class Index extends Component {
         }
         `}</style>
         {this.props.isAuthenticated ? this.SuperSecretDiv() : null }
-        <Card.Group>
+        <Card.Group itemsPerRow='3' stackable>
           {
             this.props.blogPosts.posts.map(post => {
               if (process.browser) {
                 Router.prefetch(`/${post.type.toLowerCase()}?${this.toQueryString(post)}`)
               }
               const date = new Date(post.createdAt)
-              return <Card key={post._id} onClick={this.navigateToPost.bind(this, post)}>
+              return <Card
+                key={post._id}
+                onClick={this.navigateToPost.bind(this, post)}>
                 <Image src={post.image} />
                 <Card.Content>
                   <Card.Header>{post.title}</Card.Header>
