@@ -2,7 +2,6 @@ import React, { PropTypes, Component } from 'react'
 import { Card, Image } from 'semantic-ui-react'
 import fetch from 'isomorphic-unfetch'
 import Markdown from 'react-markdown'
-import Router from 'next/router'
 import Link from 'next/link'
 
 import defaultPage from '../hocs/defaultPage'
@@ -35,14 +34,6 @@ class Index extends Component {
     return params.join('&')
   }
 
-  navigateToPost (post) {
-    console.log(post)
-    Router.push(
-      `/${post.type.toLowerCase()}?${this.toQueryString(post)}`,
-      `/${post.type.toLowerCase()}/${post.title.toLowerCase().split(' ').join('-')}`,
-      { shallow: true })
-  }
-
   SuperSecretDiv = () => (
     <b>
       This is a super secret div.
@@ -50,6 +41,7 @@ class Index extends Component {
   )
 
   render () {
+    const { isAuthenticated, blogPosts } = this.props
     return (
       <NotAuthenticated>
         <style jsx global>{`
@@ -58,26 +50,26 @@ class Index extends Component {
           display: block;
         }
         `}</style>
-        {this.props.isAuthenticated ? this.SuperSecretDiv() : null }
+        {isAuthenticated ? this.SuperSecretDiv() : null }
         <Card.Group itemsPerRow='3' stackable>
           {
-            this.props.blogPosts.posts.map(post => {
-              if (process.browser) {
-                Router.prefetch(`/${post.type.toLowerCase()}?${this.toQueryString(post)}`)
-              }
+            blogPosts.posts.map(post => {
               const date = new Date(post.createdAt)
-              return <Card
-                key={post._id}
-                onClick={this.navigateToPost.bind(this, post)}>
-                <Image src={post.image} />
-                <Card.Content>
-                  <Card.Header>{post.title}</Card.Header>
-                  <Card.Meta content={date.toLocaleDateString()} />
-                  <Card.Description>
-                    <Markdown source={post.content} />
-                  </Card.Description>
-                </Card.Content>
-              </Card>
+              const slug = post.type.toLowerCase()
+              return <Link href={`/${slug}?`} >
+                <Card
+                  key={post._id}
+                  as='a'>
+                  <Image src={post.image} />
+                  <Card.Content>
+                    <Card.Header>{post.title}</Card.Header>
+                    <Card.Meta content={date.toLocaleDateString()} />
+                    <Card.Description>
+                      <Markdown source={post.content} />
+                    </Card.Description>
+                  </Card.Content>
+                </Card>
+              </Link>
             })
           }
         </Card.Group>

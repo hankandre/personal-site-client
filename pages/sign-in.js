@@ -15,6 +15,9 @@ class SignIn extends React.Component {
       error: '',
       lock: 'lock'
     }
+    this.handlePassword = this.handlePassword.bind(this)
+    this.handleSubmit = this.handleSubmit.bind(this)
+    this.handleUsername = this.handleUsername.bind(this)
   }
 
   static getInitialProps () {
@@ -30,9 +33,10 @@ class SignIn extends React.Component {
   }
 
   async handleSubmit (e) {
+    const { username, password } = this.state
     const user = {
-      username: this.state.username,
-      password: this.state.password
+      username,
+      password
     }
     e.preventDefault()
     const res = await fetch('https://mighty-sierra-41096.herokuapp.com/', {
@@ -54,8 +58,12 @@ class SignIn extends React.Component {
   }
 
   render () {
+    const { error,
+      username,
+      password,
+      lock } = this.state
     return (
-      <Form onSubmit={this.handleSubmit.bind(this)}>
+      <Form onSubmit={this.handleSubmit}>
         <style jsx global>{`
           form {
             display: flex;
@@ -72,20 +80,20 @@ class SignIn extends React.Component {
         <Form.Field>
           <Input type='text'
             placeholder='Username'
-            value={this.state.username}
+            value={username}
             icon='user'
-            onChange={this.handleUsername.bind(this)} />
+            onChange={this.handleUsername} />
         </Form.Field>
         <Form.Field>
           <Input type='password'
             placeholder='Password'
-            value={this.state.password}
+            value={password}
             icon='lock'
-            onChange={this.handlePassword.bind(this)} />
+            onChange={this.handlePassword} />
         </Form.Field>
-        <p style={{color: 'red'}}>{this.state.error}</p>
+        <p style={{color: 'red'}}>{error}</p>
         <Button>
-          <Icon name={this.state.lock} />
+          <Icon name={lock} />
           Submit
         </Button>
 

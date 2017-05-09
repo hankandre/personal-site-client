@@ -11,7 +11,7 @@ class Post extends Component {
   }
 
   render () {
-    console.log(this.props)
+    const { query } = this.props.url
     return (
       <section>
         <style jsx>{`
@@ -20,10 +20,10 @@ class Post extends Component {
             max-width: 100%;
           }
         `}</style>
-        <img src={this.props.url.query.image} alt='post title' />
+        <img src={query.image} alt='post title' />
         <Container>
-          <h1>{this.props.url.query.title}</h1>
-          <Markdown source={this.props.url.query.content} />
+          <h1>{query.title}</h1>
+          <Markdown source={query.content} />
         </Container>
       </section>
     )
