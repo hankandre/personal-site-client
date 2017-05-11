@@ -8,7 +8,7 @@ export default Page => class DefaultPage extends React.Component {
   static async getInitialProps (ctx) {
     const loggedUser = process.browser ? getUserFromLocalStorage() : getUserFromCookie(ctx.req)
     const pageProps = Page.getInitialProps
-                    ? await Page.getInitialProps() && await Page.getInitialProps(ctx)
+                    ? await Page.getInitialProps(ctx)
                     : null
     return {
       ...pageProps,

@@ -1,5 +1,5 @@
 import React, { PropTypes, Component } from 'react'
-import { Card, Image } from 'semantic-ui-react'
+import { Image, Header, Divider } from 'semantic-ui-react'
 import fetch from 'isomorphic-unfetch'
 import Markdown from 'react-markdown'
 import Link from 'next/link'
@@ -10,8 +10,8 @@ import NotAuthenticated from '../layouts/NotAuthenticated'
 class Index extends Component {
   static async getInitialProps () {
     const res = await fetch('https://stark-cliffs-87781.herokuapp.com/')
-    const data = await res.json()
-    return { blogPosts: data }
+    const blogPosts = await res.json()
+    return { blogPosts }
   }
 
   static propTypes = {
@@ -44,35 +44,43 @@ class Index extends Component {
     const { isAuthenticated, blogPosts } = this.props
     return (
       <NotAuthenticated>
-        <style jsx global>{`
+        <style jsx>{`
         img {
           max-width: 100%;
           display: block;
         }
+        section {
+          display: flex;
+          justify-content: space-around;
+          flex-wrap: wrap;
+        }
+        section > * {
+          flex: 1 33.33333333%;
+        }
         `}</style>
         {isAuthenticated ? this.SuperSecretDiv() : null }
-        <Card.Group itemsPerRow='3' stackable>
+        <section>
           {
             blogPosts.posts.map(post => {
               const date = new Date(post.createdAt)
               const slug = post.type.toLowerCase()
-              return <Link href={`/${slug}?`} >
-                <Card
-                  key={post._id}
-                  as='a'>
+              return <Link
+                key={post._id}
+                href={`/${slug}?id=${post._id}`}
+                as={`/${slug}/${post._id}`} >
+                <a>
                   <Image src={post.image} />
-                  <Card.Content>
-                    <Card.Header>{post.title}</Card.Header>
-                    <Card.Meta content={date.toLocaleDateString()} />
-                    <Card.Description>
-                      <Markdown source={post.content} />
-                    </Card.Description>
-                  </Card.Content>
-                </Card>
+                  <div>
+                    <Header>{post.title}</Header>
+                    <p>{date.toLocaleDateString()}</p>
+                    <Divider />>
+                    <Markdown source={post.content} />
+                  </div>
+                </a>
               </Link>
             })
           }
-        </Card.Group>
+        </section>
       </NotAuthenticated>
 
     )

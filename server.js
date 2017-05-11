@@ -11,7 +11,7 @@ app.prepare()
   const server = new Koa()
   const router = new Router()
 
-  router.get('/post/:post', async ctx => {
+  router.get('/post/:id', async ctx => {
     const { query, params } = ctx
     console.log(params, query)
     await app.render(ctx.req, ctx.res, '/post', query)

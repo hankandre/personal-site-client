@@ -21,7 +21,6 @@ export const setToken = (data) => {
   if (!process.browser) {
     return
   }
-  console.log(data.token)
   window.localStorage.setItem('hankToken', data.token)
   window.localStorage.setItem('user', JSON.stringify(data.user))
   Cookie.set('jwt', data.token)
