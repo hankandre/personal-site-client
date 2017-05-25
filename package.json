@@ -10,7 +10,8 @@
     "react-dom": "15.4.2",
     "react-markdown": "^2.5.0",
     "semantic-ui-react": "^0.68.2",
-    "uuid": "3.0.1"
+    "uuid": "3.0.1",
+    "snyk": "^1.30.1"
   },
   "devDependencies": {
     "babel-eslint": "7.2.1",
@@ -20,9 +21,12 @@
     "dev": "node server.js",
     "build": "next build",
     "start": "NODE_ENV=production node server.js",
-    "lint": "standard --fix"
+    "lint": "standard --fix",
+    "snyk-protect": "snyk protect",
+    "prepublish": "npm run snyk-protect"
   },
   "standard": {
     "parser": "babel-eslint"
-  }
+  },
+  "snyk": true
 }
