@@ -1,13 +1,12 @@
-import react from 'react';
+import React from 'react';
+import Styles from '../components/Styles';
+import Sidebar from '../components/Sidebar';
 
 const Index = () =>
   <main>
-    <style jsx global>{`
-      body {
-        font-family: Futura, 'Helvetica Neue', Helvetica, sans-serif;
-      }
-    `}</style>
-    <h3>Hello</h3>
+    <Styles />
+    <Sidebar />
+    <h1>Hello</h1>
   </main>;
 
 export default Index;
