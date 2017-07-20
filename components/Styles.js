@@ -41,6 +41,7 @@ export const changeHue = (p, c0, c1) => {
 
 export default () =>
   <style global jsx>{`
+    @import url('https://fonts.googleapis.com/css?family=Roboto+Mono:300,400,500');
     @font-face {
       font-family: 'Futura';
       src: url('../assets/fonts/Futura.eot');
@@ -90,11 +91,11 @@ export default () =>
 
     a {
       text-decoration: none;
-      color: ${secondaryColor};
+      color: ${changeHue(-0.05, secondaryColor)};
       transition: color 200ms;
     }
 
     a:hover {
-      color: ${changeHue(-0.15, secondaryColor)};
+      color: ${secondaryColor};
     }
   `}</style>;
