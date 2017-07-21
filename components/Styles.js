@@ -1,7 +1,5 @@
 import React from 'react';
 
-export const tertiaryColor = '#6BE5F2';
-export const secondaryColor = '#F22987';
 export const changeHue = (p, c0, c1) => {
   var n = p < 0 ? p * -1 : p,
     u = Math.round,
@@ -38,6 +36,8 @@ export const changeHue = (p, c0, c1) => {
     );
   }
 };
+export const tertiaryColor = changeHue(-0.15, '#6BE5F2');
+export const secondaryColor = '#F22987';
 
 export default () =>
   <style global jsx>{`
@@ -91,11 +91,11 @@ export default () =>
 
     a {
       text-decoration: none;
-      color: ${changeHue(-0.05, secondaryColor)};
+      color: ${secondaryColor};
       transition: color 200ms;
     }
 
     a:hover {
-      color: ${secondaryColor};
+      color: ${changeHue(0.15, secondaryColor)};
     }
   `}</style>;

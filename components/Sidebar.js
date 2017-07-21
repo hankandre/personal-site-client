@@ -28,7 +28,7 @@ export default class Sidebar extends Component {
             flex-direction: column;
             justify-content: space-around;
             align-items: center;
-            background-color: ${changeHue(0.85, '#000')};
+            background-color: rgba(0, 0, 0, .15);
             transition: top 200ms;
           }
 
@@ -51,34 +51,42 @@ export default class Sidebar extends Component {
             margin-left: unset;
           }
 
-          span {
+          li h3 {
+            margin-top: 0;
+          }
+
+          h3 {
             font-size: 2rem;
             color: ${tertiaryColor};
             cursor: pointer;
+            margin-bottom: .75rem;
+            transition: color 200ms;
           }
 
-          span:hover {
+          h3:hover {
             color: ${changeHue(-0.15, tertiaryColor)};
           }
         `}</style>
         <ul>
-          {NavLinks.map(link => {
+          {NavLinks.map((link, index) => {
             return (
-              <li>
-                <Link
-                  href={link.url}
-                  prefetch={link.prefetch ? link.prefetch : false}>
-                  <a title={link.title}>
-                    {link.name}
-                  </a>
-                </Link>
+              <li key={index.toString()}>
+                <h4>
+                  <Link
+                    href={link.url}
+                    prefetch={link.prefetch ? link.prefetch : false}>
+                    <a title={link.title}>
+                      {link.name}
+                    </a>
+                  </Link>
+                </h4>
               </li>
             );
           })}
         </ul>
-        <span href="javascript:void(0);" onClick={handleClick}>
+        <h3 href="javascript:void(0);" onClick={handleClick}>
           menu
-        </span>
+        </h3>
       </nav>
     );
   }

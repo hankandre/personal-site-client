@@ -1,0 +1,4 @@
+{"serverPort":49862,"level":"info","message":"   Started JSTwister core on port 49862","timestamp":"2017-07-20T13:43:11.675Z"}
+{"level":"info","message":"   Workspace root set to /Users/hank/Projects/personal-site","timestamp":"2017-07-20T13:43:12.295Z"}
+{"level":"info","message":"   Done processing 0 files...","timestamp":"2017-07-20T13:43:12.307Z"}
+{"durationMs":2,"level":"info","message":"   analyzeProject","timestamp":"2017-07-20T13:43:12.307Z"}

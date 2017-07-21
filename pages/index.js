@@ -1,6 +1,7 @@
 import React from 'react';
 import Styles from '../components/Styles';
 import Sidebar from '../components/Sidebar';
+import Intro from '../components/Intro';
 
 export default class Index extends React.Component {
   constructor(props) {
@@ -33,7 +34,7 @@ export default class Index extends React.Component {
         <Styles />
         <Sidebar handleClick={this.handleClick} active={active} />
         <main className={active ? 'active' : null}>
-          <h1>Hello</h1>
+          <Intro />
         </main>
       </section>
     );
