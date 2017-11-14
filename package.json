@@ -10,7 +10,7 @@
   "author": "Hank Andre",
   "license": "ISC",
   "dependencies": {
-    "next": "^3.0.1-beta.16",
+    "next": "^4.0.0",
     "react": "^15.6.1",
     "react-dom": "^15.6.1"
   },
